@@ -1,66 +1,91 @@
 import fasttext
 from nltk import ngrams
+import scipy
 
-
-
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 
 ftModelFile = "cc.it.300.bin"
 
 print("Loading FastText\n")
-model_ft  = fasttext.load_model(ftModelFile)
+model_ft = fasttext.load_model(ftModelFile)
 
 print("Loading stopwords\n")
 stopwords = []
 with open("stopwords.txt") as file:
-    for line in file: 
+    for line in file:
         line = line.strip().lower()
         if len(line) == 0:
             continue
         stopwords.append(line)
 
-def CleanStopWords (sentence):
-    sentenceSplitted = sentence.split(" ")  #METTERE UN VERO TOKENIZZATORE 
-    sentence = [w for w in sentenceSplitted if w not in stopwords]
-    return(sentence)
 
-# figura maschile schematizzata
-#mytext = "Bronzetto rappresentante una figura schematica di uomo seduto a gambe appena divaricate con i gomiti puntati sulle ginocchia e le mani davanti alla testa"
-# mytext = "Bronzetto rappresentante una figura schematica di uomo seduto a gambe appena divaricate con i gomiti puntati sulle ginocchia e le mani davanti alla testa, le estremità delle braccia si uniscono in maniera indistinta, sicchè non si può precisare se le meni reggono qualcosa davanti alla bocca o se sono congiunte sotto il mento. Nella testa cilindrica e coronata da una calotta piatta ad indicare la capigliatura, non ci sono indicazioni di occhi, naso e nuca né delle dita nelle mani e nei piedi Il busto è esile un po' appiattito le membra si piegano descrivendo un arco acuto senza però dar risalto alle giunture Appartiene ad un tipo diffuso in Grecia nei Balcani nell Italia centrale in tutta l età del ferro"
-with open ("excel/dataset.csv.tsv","r") as f:
+def CleanStopWords(sentence):
+    sentenceSplitted = sentence.split(" ")  # METTERE UN VERO TOKENIZZATORE
+    sentence = [w for w in sentenceSplitted if w not in stopwords]
+    return (sentence)
+
+
+with open("excel/dataset.csv.tsv", "r") as f:
     for line in f:
         parts = line.split("\t")
         mytext = parts[2]
-        
-        mysubj = parts[3]
 
-        #AGGIUNGERE RIMOZIONE PUNTEGGIATURA
+        # AGGIUNGERE RIMOZIONE PUNTEGGIATURA
         sentencearray = CleanStopWords(mytext.lower())
         sentence = ' '.join(sentencearray)
 
-        embeddings = model_ft.get_sentence_vector(sentence)
+        embeddings_descr = model_ft.get_sentence_vector(sentence)
 
-        print(sentence,embeddings[:3])
+        print(sentence, embeddings_descr[:3])
         print()
 
-        bigrams  = ngrams(sentence.split(), 2)
+        bigrams = ngrams(sentence.split(), 2)
         trigrams = ngrams(sentence.split(), 3)
 
         for t in trigrams:
-        	emb = model_ft.get_sentence_vector(''.join(t))
-        	print (t,emb[:3])
+            emb = model_ft.get_sentence_vector(''.join(t))
+            print(t, emb[:3])
 
-        for b in bigrams: 
-        	emb = model_ft.get_sentence_vector(''.join(b))
-        	print (b,emb[:3])
+        for b in bigrams:
+            emb = model_ft.get_sentence_vector(''.join(b))
+            print(b, emb[:3])
 
-        def cos_similarity (mytext, mysubj):
+        mytext = parts[3]
 
-            fasttext_model = fasttext.load_model(ftModelFile)
+        # AGGIUNGERE RIMOZIONE PUNTEGGIATURA
+        subjarray = CleanStopWords(mytext.lower())
+        subject = ' '.join(subjarray)
 
-            descr_emb = np.mean([fasttext_model[x] for word in mytext for x in word.split()if x not in stopwords], axis=0)
+        embeddings_subj = model_ft.get_sentence_vector(subject)
 
-            subj_emb = np.mean([fasttext_model[x] for word in mysubj for x in word.split()if x not in stopwords], axis=0)
+        print(subject, embeddings_subj[:3])
+        print()
+        """
+        bigrams = ngrams(subject.split(), 2)
+        trigrams = ngrams(subject.split(), 3)
+        
+        for t in trigrams:
+            emb = model_ft.get_sentence_vector(''.join(t))
+            print(t, emb[:3])
 
-            return "Similarity:", 1- scipy.spatial.distance.cosine(descr_emb, subj_emb)
+        for b in bigrams:
+            emb = model_ft.get_sentence_vector(''.join(b))
+            print(b, emb[:3])
+        """
+        a = embeddings_descr
 
-        print(cos_similarity)
+        b = embeddings_subj
+
+        def cos_sim(a, b):
+            dot_product = np.dot(a, b)
+            norm_a = np.linalg.norm(a)
+            norm_b = np.linalg.norm(b)
+            return dot_product / (norm_a * norm_b)
+
+        print(cos_sim(a,b))
+        #exit()
+
+
+
+    
