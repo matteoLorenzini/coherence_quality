@@ -1,11 +1,10 @@
 import fasttext
 from nltk import ngrams
-import scipy
-
 import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd 
 
-ftModelFile = "cc.it.300.bin"
+
+ftModelFile = "/home/matteolorenzini/pandas/coherence/cc.it.300.bin"
 
 print("Loading FastText\n")
 model_ft = fasttext.load_model(ftModelFile)
@@ -61,18 +60,7 @@ with open("excel/dataset.csv.tsv", "r") as f:
 
         print(subject, embeddings_subj[:3])
         print()
-        """
-        bigrams = ngrams(subject.split(), 2)
-        trigrams = ngrams(subject.split(), 3)
-        
-        for t in trigrams:
-            emb = model_ft.get_sentence_vector(''.join(t))
-            print(t, emb[:3])
 
-        for b in bigrams:
-            emb = model_ft.get_sentence_vector(''.join(b))
-            print(b, emb[:3])
-        """
         a = embeddings_descr
 
         b = embeddings_subj
@@ -83,9 +71,16 @@ with open("excel/dataset.csv.tsv", "r") as f:
             norm_b = np.linalg.norm(b)
             return dot_product / (norm_a * norm_b)
 
-        print(cos_sim(a,b))
-        #exit()
+        cosine = [(cos_sim(a,b))]
 
+        print(cosine)
+    
+    df = pd.DataFrame(cosine)
 
+    print(df)  
+
+      
+        
+    
 
     
