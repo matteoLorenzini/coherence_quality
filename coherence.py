@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd 
 
 
-ftModelFile = "/home/matteolorenzini/pandas/coherence/cc.it.300.bin"
+ftModelFile = "cc.it.300.bin"
 
 print("Loading FastText\n")
 model_ft = fasttext.load_model(ftModelFile)
@@ -20,12 +20,13 @@ with open("stopwords.txt") as file:
 
 
 def CleanStopWords(sentence):
-    sentenceSplitted = sentence.split(" ")  # METTERE UN VERO TOKENIZZATORE
+    sentenceSplitted = sentence.split(" http://dh-server.fbk.eu:19003/simp-engines/tae/simpform")  # METTERE UN VERO TOKENIZZATORE
     sentence = [w for w in sentenceSplitted if w not in stopwords]
     return (sentence)
 
+df_complete = pd.DataFrame()
 
-with open("excel/dataset.csv.tsv", "r") as f:
+with open("archeo.tsv", "r") as f:
     for line in f:
         parts = line.split("\t")
         mytext = parts[2]
@@ -75,9 +76,11 @@ with open("excel/dataset.csv.tsv", "r") as f:
 
         print(cosine)
     
-    df = pd.DataFrame(cosine)
+        df = pd.DataFrame(cosine)
 
-    print(df)  
+        df_complete = df_complete.append(df)
+
+    df_complete.to_csv('archeo.csv')
 
       
         
