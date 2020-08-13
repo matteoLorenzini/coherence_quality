@@ -26,13 +26,14 @@ def CleanStopWords(sentence):
 
 df_complete = pd.DataFrame()
 
-with open("archeo.tsv", "r") as f:
+with open("inputFile/archeo.tsv", "r") as f:
     for line in f:
         parts = line.split("\t")
-        mytext = parts[2]
+        
+        # DESCRIPTION
+        mydesc = parts[1]
 
-        # AGGIUNGERE RIMOZIONE PUNTEGGIATURA
-        sentencearray = CleanStopWords(mytext.lower())
+        sentencearray = CleanStopWords(mydesc.lower())
         sentence = ' '.join(sentencearray)
 
         embeddings_descr = model_ft.get_sentence_vector(sentence)
@@ -51,10 +52,11 @@ with open("archeo.tsv", "r") as f:
             emb = model_ft.get_sentence_vector(''.join(b))
             print(b, emb[:3])
 
-        mytext = parts[3]
+        # SUBJECT
+        
+        mysubj = parts[2]
 
-        # AGGIUNGERE RIMOZIONE PUNTEGGIATURA
-        subjarray = CleanStopWords(mytext.lower())
+        subjarray = CleanStopWords(mysubj.lower())
         subject = ' '.join(subjarray)
 
         embeddings_subj = model_ft.get_sentence_vector(subject)
