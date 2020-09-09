@@ -1,7 +1,7 @@
 import fasttext
 from nltk import ngrams
 import numpy as np
-import pandas as pd 
+import pandas as pd
 
 
 ftModelFile = "cc.it.300.bin"
@@ -26,10 +26,10 @@ def CleanStopWords(sentence):
 
 df_complete = pd.DataFrame()
 
-with open("inputFile/archeo.tsv", "r") as f:
+with open("inputFile/vaw_labelled.tsv", "r") as f:
     for line in f:
         parts = line.split("\t")
-        
+
         # DESCRIPTION
         mydesc = parts[1]
 
@@ -45,7 +45,7 @@ with open("inputFile/archeo.tsv", "r") as f:
         trigrams = ngrams(sentence.split(), 3)
 
         # SUBJECT
-        
+
         mysubj = parts[2]
 
         subjarray = CleanStopWords(mysubj.lower())
@@ -62,7 +62,36 @@ with open("inputFile/archeo.tsv", "r") as f:
             norm_b = np.linalg.norm(b)
             return dot_product / (norm_a * norm_b)
 
-        max_cosine_trig = None  
+        a = embeddings_descr
+        b = embeddings_subj
+
+        cosine = [(cos_sim(a, b))]
+
+        print(cosine)
+
+        max_cosine_bigr = None
+        min_cosine_bigr = None
+
+        for b in bigrams:
+            emb = model_ft.get_sentence_vector("".join(b))
+            print(b, emb[:3])
+
+            a = emb
+            b = embeddings_subj
+
+            cosine_bigr = [(cos_sim(a, b))]
+            print("Cosine bigrams:", cosine_bigr)
+
+            if max_cosine_bigr is None or max_cosine_bigr < cosine_bigr:
+                max_cosine_bigr = cosine_bigr
+
+            if min_cosine_bigr is None or min_cosine_bigr > cosine_bigr:
+                min_cosine_bigr = cosine_bigr
+
+        print(f"Min cosine bigrams: {min_cosine_bigr}")
+        print(f"Max cosine bigrams: {max_cosine_bigr}")
+
+        max_cosine_trig = None
         min_cosine_trig = None
 
         for t in trigrams:
@@ -77,60 +106,35 @@ with open("inputFile/archeo.tsv", "r") as f:
 
             if max_cosine_trig is None or max_cosine_trig < cosine_trig:
                 max_cosine_trig = cosine_trig
-            
+
 
             if min_cosine_trig is None or min_cosine_trig > cosine_trig:
                 min_cosine_trig = cosine_trig
-            
+
 
 
         print(f"Min cosine trigrams: {min_cosine_trig}")
         print(f"Max cosine trigrams: {max_cosine_trig}")
-        
 
-        max_cosine_bigr = None  
-        min_cosine_bigr = None
+        df_cosine = pd.DataFrame(cosine, columns=['Cosine'])
 
-        for b in bigrams:
-            emb = model_ft.get_sentence_vector("".join(b))
-            print(b, emb[:3])
+        df_min_bigr = pd.DataFrame(min_cosine_bigr, columns=['Cos_min_bigr'])
 
-            a = emb
-            b = embeddings_subj
-
-            cosine_bigr = [(cos_sim(a, b))]
-            print("Cosine bigrams:", cosine_trig)
-
-            if max_cosine_bigr is None or max_cosine_bigr < cosine_bigr:
-                max_cosine_bigr = cosine_bigr
-            
-
-            if min_cosine_bigr is None or min_cosine_bigr > cosine_bigr:
-                min_cosine_bigr = cosine_bigr
-            
-
-
-        print(f"Min cosine bigrams: {min_cosine_bigr}")
-        print(f"Max cosine bigrams: {max_cosine_bigr}")
+        df_max_bigr = pd.DataFrame(max_cosine_bigr, columns=['Cos_max_bigr'])
 
         df_min_trig = pd.DataFrame(min_cosine_trig,columns = ['Cos_min_trig'])
 
         df_max_trig = pd.DataFrame(max_cosine_trig,columns = ['Cos_max_trig'])
 
-    
-        
-        df_min_bigr = pd.DataFrame(min_cosine_bigr,columns = ['Cos_min_bigr'])
 
-        df_max_bigr = pd.DataFrame(max_cosine_bigr,columns = ['Cos_max_bigr'])
-
-        data_set = pd.concat([df_min_trig['Cos_min_trig'], df_max_trig['Cos_max_trig'], df_min_bigr['Cos_min_bigr'], df_max_bigr['Cos_max_bigr']], axis=1, keys=['Cos_min_trig', 'Cos_max_trig','Cos_min_bigr','Cos_max_bigr'])
+        data_set = pd.concat([ df_cosine['Cosine'],df_min_bigr['Cos_min_bigr'], df_max_bigr['Cos_max_bigr'],df_min_trig['Cos_min_trig'], df_max_trig['Cos_max_trig']], axis=1, keys=['Cosine','Cos_min_bigr','Cos_max_bigr','Cos_min_trig', 'Cos_max_trig'])
 
         df_complete = df_complete.append(data_set)
 
-    df_complete.to_csv('archeo_coherence.csv') 
+    df_complete.to_csv('vaw_labelled.csv')
 
-    
-        
-    
 
-    
+
+
+
+
