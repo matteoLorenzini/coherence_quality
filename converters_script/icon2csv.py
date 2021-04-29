@@ -33,7 +33,7 @@ def assign_label(i):
     if i == "6":
         return 'Storia'
     if i == "7":
-        return 'Bibbia_storie_dal_Vecchio_e_dal_Nuovo_Testamento)'
+        return 'Bibbia_storie_dal_Vecchio_e_dal_Nuovo_Testamento'
     if i == "8":
         return 'Letteratura'
     if i == "9":
