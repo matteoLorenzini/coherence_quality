@@ -92,8 +92,8 @@ for line in test_desc:
     elif line.startswith("__label__Storia"):
         desc = line[len("__label__Storia"):]
         label = 6
-    elif line.startswith("__label__Bibbia_storie_dal_Vecchio_e_dal_Nuovo_Testamento)"):
-        desc = line[len("__label__Bibbia_storie_dal_Vecchio_e_dal_Nuovo_Testamento)"):]
+    elif line.startswith("__label__Bibbia_storie_dal_Vecchio_e_dal_Nuovo_Testamento"):
+        desc = line[len("__label__Bibbia_storie_dal_Vecchio_e_dal_Nuovo_Testamento"):]
         label = 7
     elif line.startswith("__label__Letteratura"):
         desc = line[len("__label__Letteratura"):]
@@ -123,7 +123,7 @@ for line in test_desc:
         pred = 5
     elif predLabel == "__label__Storia":
         pred = 6
-    elif predLabel == "__label__Bibbia_storie_dal_Vecchio_e_dal_Nuovo_Testamento)":
+    elif predLabel == "__label__Bibbia_storie_dal_Vecchio_e_dal_Nuovo_Testamento":
         pred = 7
     elif predLabel == "__label__Letteratura":
         pred = 8
