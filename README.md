@@ -19,7 +19,7 @@
 
 * Input data
   * [Iconclass](https://github.com/matteoLorenzini/coherence/blob/master/input_data/icon.txt): pre labelled Iconclass dataset. The resources are already labelled according to FastText syntax using the prefix __label__ e.g. __label__Religione_e_Magia
-  * [TestSet]  (https://github.com/matteoLorenzini/coherence/blob/master/input_data/vaw_test_dataset_coherence_baseline.csv): 500 high-quality descriptions used as test dataset for subject prediction. Descriptions are from the [Annotated dataset](https://figshare.com/articles/dataset/Annotated_dataset_to_assess_the_accuracy_of_the_textual_description_of_cultural_heritage_records/13359104) 
+  * [TestSet](https://github.com/matteoLorenzini/coherence/blob/master/input_data/vaw_test_dataset_coherence_baseline.csv): 500 high-quality descriptions used as test dataset for subject prediction. Descriptions are from the [Annotated dataset](https://figshare.com/articles/dataset/Annotated_dataset_to_assess_the_accuracy_of_the_textual_description_of_cultural_heritage_records/13359104) 
 
 * Train the model
   * Use the [train_model.py](https://github.com/matteoLorenzini/coherence/blob/master/FastText/train_model.py) script to create the prediction model
@@ -30,7 +30,7 @@
 
 * Input data
   * [Iconclass](https://github.com/matteoLorenzini/coherence/blob/master/input_data/icon.txt): pre labelled Iconclass dataset.
-  * [TestSet] (https://github.com/matteoLorenzini/coherence/blob/master/input_data/vaw_test_dataset_coherence_baseline.csv): 500 high-quality descriptions used as test dataset for subject prediction. Descriptions are from the [Annotated dataset](https://figshare.com/articles/dataset/Annotated_dataset_to_assess_the_accuracy_of_the_textual_description_of_cultural_heritage_records/13359104)
+  * [TestSet](https://github.com/matteoLorenzini/coherence/blob/master/input_data/vaw_test_dataset_coherence_baseline.csv): 500 high-quality descriptions used as test dataset for subject prediction. Descriptions are from the [Annotated dataset](https://figshare.com/articles/dataset/Annotated_dataset_to_assess_the_accuracy_of_the_textual_description_of_cultural_heritage_records/13359104)
 
 * Create the word embeddings
   * Run the script [csv2json.py](https://github.com/matteoLorenzini/coherence/blob/master/convert/csv2json.py) to convert the test dataset and the iconclass dataset in .json
