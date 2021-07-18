@@ -22,7 +22,7 @@ def print_results(N, p, r):
 
 
 if __name__ == "__main__":
-    train_data = os.path.join(os.getenv("DATADIR", ''), '../model/icon.txt')
+    train_data = os.path.join(os.getenv("DATADIR", ''), '../input_data/icon.txt')
     #valid_data = os.path.join(os.getenv("DATADIR", ''), 'cooking.valid')
 
     # train_supervised uses the same arguments and defaults as the fastText cli
