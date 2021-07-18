@@ -9,7 +9,7 @@ from numpy import nan
 df=pd.read_csv('../input_data/vaw_dataset_coherence.csv')
 
 # here you load your fasttext module
-model=ft.load_model('../model/icon_wikipedia_.bin')
+model=ft.load_model('../model/icon_1307.bin')
 
 # here the baseline
 baseline = ['__label__Religione_e_Magia','__label__Mitologia_classica_e_storia_antica','__label__Societa_civilizzazione_cultura']
