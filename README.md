@@ -38,6 +38,6 @@
 * Train the model
   * Run the script [train_svm.py](https://github.com/matteoLorenzini/coherence/blob/master/SVM/train_svm.py) to train the prediction model and obtain the .pkl file
 * Run the prediction model
-  * Run the [predict_svm.py]((https://github.com/matteoLorenzini/coherence/blob/master/SVM/predict_svm.py)) to obtain the top 3 predicted subjects
+  * Run the [predict_svm.py](https://github.com/matteoLorenzini/coherence/blob/master/SVM/predict_svm.py) to obtain the top 3 predicted subjects
 
 [![License: CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-sa/4.0/) [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
