@@ -1,2 +1,6 @@
 /cc.it.300.bin
 venv/
+.coherence/
+.vs/
+__pycache__
+model/
