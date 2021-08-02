@@ -75,6 +75,6 @@ print(df['P@1'].value_counts(normalize=True).mul(100).astype(str)+'%')
 print(df['P@3'].value_counts(normalize=True).mul(100).astype(str)+'%')
 
 
-output.to_csv('csv_file_new_pred.csv',sep=',',index=False)
+output.to_csv('../output/vaw_mlr_new_pred.csv',sep=',',index=False)
 
-df.to_csv('csv_file_df_pred.csv',sep=',',index=False)
+df.to_csv('../output/vaw_mlr__pred.csv',sep=',',index=False)
