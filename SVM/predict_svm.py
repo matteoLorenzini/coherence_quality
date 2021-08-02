@@ -24,7 +24,7 @@ baseline = ['1','9','4']
 gold = ['1','2','3','4','5','6','7','8','9']
 
 predictions=[]
-with open('model.pkl', 'rb') as f:     
+with open('../model/model.pkl', 'rb') as f:     
         clf = pickle.load(f)
         
 for line in X:
@@ -74,3 +74,5 @@ for i in range(rows):
 
 print("Raw counts: B@1={} B@3={} P@1={} P@3={}",baseline_p1,baseline_p3,pred_p1,pred_p3)
 print("Percentages: B@1={} B@3={} P@1={} P@3={}",baseline_p1/rows,baseline_p3/rows,pred_p1/rows,pred_p3/rows)
+
+final.to_csv('vaw_svm_prediction.csv',sep=',',index=False)
